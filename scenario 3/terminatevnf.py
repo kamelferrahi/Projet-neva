@@ -84,7 +84,7 @@ def create_vnf_instance(vnfd_id, name):
 def instantiate_vnf(vnf_instance_id):
     url = f"{BASE_URL}/vnflcm/v2/vnf_instances/{vnf_instance_id}/instantiate"
     payload = {
-        "flavourId": "df-normal",  
+        "flavourId": "df-big",  
     }
     response = requests.post(url, headers=HEADERS, json= payload)
     if response.status_code == 202:
@@ -108,14 +108,59 @@ def fetch_operation(operation_id):
         print(f"Failed to fetch VNFD: {response.status_code} {response.text}")
         return None
 
+def scale_to_level(vnf_instance_id, aspect_id, scale_level, vnfd_id):
+    url = f"{BASE_URL}/vnflcm/v2/vnf_instances/{vnf_instance_id}/scale_to_level"
+    payload = {
+        "scaleInfo": [
+            {
+                "aspectId": aspect_id,
+                "scaleLevel": scale_level,
+                "vnfdId": vnfd_id
+            }
+        ]
+    }
+    response = requests.post(url, headers=HEADERS, json=payload)
+    if response.status_code == 202:
+        print(f"Scaling operation initiated for VNF instance {vnf_instance_id}.")
+        location_header = response.headers['Location']
+        parsed_url = urlparse(location_header)
+        operation_id = parsed_url.path.split('/')[-1]
+        return operation_id
+    else:
+        print(f"Failed to scale VNF: {response.status_code} {response.text}")
+        return None
+
+def scale_vnf(vnf_instance_id, aspect_id, number_of_steps, scale_type):
+
+    url = f"{BASE_URL}/vnflcm/v2/vnf_instances/{vnf_instance_id}/scale"
+    payload = {
+        "aspectId": aspect_id,
+        "numberOfSteps": number_of_steps,
+        "type": scale_type
+    }
+    response = requests.post(url, headers=HEADERS, json=payload)
+    if response.status_code == 202:
+        print(f"Scaling operation initiated for VNF instance {vnf_instance_id}.")
+        location_header = response.headers['Location']
+        parsed_url = urlparse(location_header)
+        operation_id = parsed_url.path.split('/')[-1]
+        return operation_id
+    else:
+        print(f"Failed to scale VNF: {response.status_code} {response.text}")
+        return None
+
 
 # Main Workflow
 def main():
 
     #key = get_apikey()
-    key = 'aaf0e8f9-29f7-4f57-97e9-65c0dc9a9990'
+    key = '8435273d-e171-4924-b551-040ba212090d'
     print("API KEY: ",key)
     HEADERS['VNF-LCM-KEY'] = key
+    aspect_id = "big"
+    scale_level = 1
+    number_of_steps = 1
+    scale_type = "SCALE_OUT"
 
     vnf_instance_id = create_vnf_instance(id_vnf, 'First_VNFD')
 
@@ -156,6 +201,29 @@ def main():
         return
     
     print("VNF reinstantion with success")
+
+    # Initiate scale-to-level operation
+    # operation_id = scale_to_level(new_vnf_instance_id, aspect_id, scale_level, id_vnf)
+    # if not operation_id:
+    #     return
+
+    # # Monitor the operation status
+    # if check_operation_status(operation_id) == "COMPLETED":
+    #     print(f"VNF instance {vnf_instance_id} scaled to level {scale_level}.")
+    # else:
+    #     print(f"Scaling operation for VNF instance {vnf_instance_id} failed.")
+
+    # Initiate scaling operation
+    operation_id = scale_vnf(new_vnf_instance_id, aspect_id, number_of_steps, scale_type)
+    if not operation_id:
+        return
+
+    # Monitor the operation status
+    if check_operation_status(operation_id) == "COMPLETED":
+        print(f"VNF instance {vnf_instance_id} successfully scaled with aspect {aspect_id}.")
+    else:
+        print(f"Scaling operation for VNF instance {vnf_instance_id} failed.")
+
 
 if __name__ == "__main__":
     main()
