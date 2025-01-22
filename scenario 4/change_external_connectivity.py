@@ -13,6 +13,12 @@ HEADERS = {
     "accept": 'application/json'
 }
 
+
+def get_apikey():
+    u = url = f"{BASE_URL}/api_key"
+    response = requests.post(url)
+    return response.json()
+
 def check_operation_status(operation_id):
     url = f"{BASE_URL}/vnflcm/v2/vnf_lcm_op_occs/{operation_id}"
     last_status = None
@@ -65,7 +71,8 @@ def create_vnf_instance(vnfd_id, name):
 def instantiate_vnf(vnf_instance_id):
     url = f"{BASE_URL}/vnflcm/v2/vnf_instances/{vnf_instance_id}/instantiate"
     payload = {
-        "flavourId": "df-normal",  
+        "flavourId": "df-normal",
+          
     }
     response = requests.post(url, headers=HEADERS, json=payload)
     if response.status_code == 202:
@@ -96,33 +103,22 @@ def generate_payload(instance_id):
     virtual_link = ext_virtual_links[0]
     virtual_link_id = virtual_link.get('id')
     resource_id = virtual_link.get('networkResource', {}).get('resourceId')
-
+    input(virtual_link)
     # Example connection point (replace with dynamic logic if needed)
-    cpd_id = "ext-a-left"
+    cpd_id = "management"
     ip_address = "192.168.1.100"
 
     payload = {
-        "vnfInstanceId": instance_id,
+        "id": virtual_link_id,
+        "resourceId": resource_id,
         "extVirtualLinks": [
             {
                 "id": virtual_link_id,
                 "resourceId": resource_id,
-                "extCps": [
-                    {
-                        "cpdId": cpd_id,
-                        "cpProtocolData": [
-                            {
-                                "layerProtocol": "IPV4",
-                                "ipAddresses": [
-                                    {
-                                        "type": "IPV4",
-                                        "fixedAddresses": [ip_address]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+                "extCps": [{
+                    "cpdId": cpd_id
+                }]
+               
             }
         ]
     }
@@ -159,7 +155,7 @@ def fetch_operation(operation_id):
 
 # Main Workflow
 def main():
-    key = 'b31bc51b-9352-4cd3-9c6d-40553c5e666c'
+    key =  get_apikey()
     print("API KEY: ",key)
     HEADERS['VNF-LCM-KEY'] = key
 
