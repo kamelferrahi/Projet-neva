@@ -1,0 +1,52 @@
+API KEY:  b31bc51b-9352-4cd3-9c6d-40553c5e666c
+New VNF instance created. Instance ID: 23109d4e-6380-4601-a0ca-ac6b3020f64c
+Instantiation initiated for VNF instance 23109d4e-6380-4601-a0ca-ac6b3020f64c.
+Current operation status: {}
+Current operation status: STARTING
+Current operation status: PROCESSING
+Current operation status: COMPLETED
+Instantion of the VNF done
+operation: 
+{'_links': {'self': '/vnflcm/v2/vnf_lcm_op_occs/8e31786f-995e-45ef-b108-2999993d848b', 'vnfInstance': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c'}, 'id': '8e31786f-995e-45ef-b108-2999993d848b', 'isAutomaticInvocation': False, 'isCancelPending': False, 'operation': 'INSTANTIATE', 'operationParams': {'flavourId': 'df-normal'}, 'operationState': 'COMPLETED', 'resourceChanges': {'affectedExtLinkPorts': [], 'affectedVirtualLinks': [{'changeType': 'ADDED', 'id': '763eafd4-517b-4c89-b72a-2be9dcfea5c4', 'networkResource': {'resourceId': 'a6aacf77-8025-4ccd-bacf-36a89c6d58a3'}, 'vnfVirtualLinkDescId': 'internal-vl'}], 'affectedVirtualStorages': [{'changeType': 'ADDED', 'id': '3936f979-1239-45b8-b824-3aac2d81b9e9', 'storageResource': {'resourceId': '8656aac2-0ebb-4dc4-82d3-fa6e53f534dc'}, 'virtualStorageDescId': 'vdu-a-2-vsd'}, {'changeType': 'ADDED', 'id': '4925392d-a5ee-49c4-b962-416d8c4ce2e8', 'storageResource': {'resourceId': '33a0a914-201c-4f07-bd1b-77a82c87281f'}, 'virtualStorageDescId': 'vdu-a-1-vsd'}], 'affectedVnfcs': [{'changeType': 'ADDED', 'computeResource': {'resourceId': '35ddcf2a-e893-4ee1-93d8-c933556624f9'}, 'id': 'b7d1655b-1fea-4158-b75f-68317b04d451', 'vduId': 'vdu-a-1'}, {'changeType': 'ADDED', 'computeResource': {'resourceId': 'cf40a21b-5828-4159-94b7-230b9eb27f75'}, 'id': '4818aa69-37ad-4d81-8a67-112254b21640', 'vduId': 'vdu-a-2'}]}, 'startTime': '2025-01-21 10:57:18.137921', 'stateEnteredTime': '2025-01-21 10:57:51.245306', 'vnfInstanceId': '23109d4e-6380-4601-a0ca-ac6b3020f64c'}
+instance info : 
+{'_links': {'heal': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/heal', 'instantiate': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/instantiate', 'operate': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/operate', 'scale': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/scale', 'scaleToLevel': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/scale_to_level', 'self': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c', 'terminate': '/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/terminate'}, 'extensions': {}, 'id': '23109d4e-6380-4601-a0ca-ac6b3020f64c', 'instantiatedVnfInfo': {'extCpInfo': [{'cpConfigId': 'ext_cp-cp-config-id', 'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'ext-a-left', 'id': '938e4de3-cf09-4f41-bcec-f259596d5e31'}, {'cpConfigId': 'ext_cp-cp-config-id', 'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'management', 'id': '1079f8d7-cb0f-4929-aedd-e5eeff3e8630'}, {'cpConfigId': 'ext_cp-cp-config-id', 'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'ext-a-right', 'id': 'c0eb9c25-11c8-49fb-ad65-0f97f5dec06e'}], 'flavourId': 'df-normal', 'maxScaleLevels': [{'aspectId': 'normal', 'scaleLevel': 2}], 'scaleStatus': [{'aspectId': 'normal', 'scaleLevel': 0}], 'virtualStorageResourceInfo': [{'id': '3936f979-1239-45b8-b824-3aac2d81b9e9', 'storageResource': {'resourceId': '8656aac2-0ebb-4dc4-82d3-fa6e53f534dc'}, 'virtualStorageDescId': 'vdu-a-2-vsd'}, {'id': '4925392d-a5ee-49c4-b962-416d8c4ce2e8', 'storageResource': {'resourceId': '33a0a914-201c-4f07-bd1b-77a82c87281f'}, 'virtualStorageDescId': 'vdu-a-1-vsd'}], 'vnfState': 'STARTED', 'vnfVirtualLinkResourceInfo': [{'id': '763eafd4-517b-4c89-b72a-2be9dcfea5c4', 'networkResource': {'resourceId': 'a6aacf77-8025-4ccd-bacf-36a89c6d58a3'}, 'vnfVirtualLinkDescId': 'internal-vl'}], 'vnfcResourceInfo': [{'computeResource': {'resourceId': '35ddcf2a-e893-4ee1-93d8-c933556624f9'}, 'id': 'b7d1655b-1fea-4158-b75f-68317b04d451', 'storageResourceIds': ['4925392d-a5ee-49c4-b962-416d8c4ce2e8'], 'vduId': 'vdu-a-1', 'vnfcCpInfo': [{'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'left', 'id': '17a2ba65-c7ba-4456-b159-ecfb397a88fe'}, {'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'management', 'id': '475a16c8-a99e-48f2-97c6-096f54e1e1aa'}, {'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'internal', 'id': '0c2f1843-9510-421c-9223-76001df786e7'}]}, {'computeResource': {'resourceId': 'cf40a21b-5828-4159-94b7-230b9eb27f75'}, 'id': '4818aa69-37ad-4d81-8a67-112254b21640', 'storageResourceIds': ['3936f979-1239-45b8-b824-3aac2d81b9e9'], 'vduId': 'vdu-a-2', 'vnfcCpInfo': [{'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'right', 'id': '17d7dccc-f466-4acc-b544-96c29eb0fc77'}, {'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'management', 'id': 'f0c26cf9-b4c1-4428-a72e-417c35f6d8b8'}, {'cpProtocolInfo': [{'ipOverEthernet': {'macAddress': '00:00:00:00:00:00'}, 'layerProtocol': 'IP_OVER_ETHERNET'}], 'cpdId': 'internal', 'id': '73496f9b-0a38-4242-989b-637abf3ab68a'}]}]}, 'instantiationState': 'INSTANTIATED', 'metadata': {}, 'vimConnectionInfo': {}, 'vnfConfigurableProperties': {'anotherAdditionalConfigurableProperty': False, 'isAutohealEnabled': False, 'isAutoscaleEnabled': False, 'someAdditionalConfigurableProperty': True}, 'vnfInstanceDescription': 'VNF simulation', 'vnfInstanceName': 'First_VNFD', 'vnfProductName': 'VNF-a with 2 VDUs multi DF', 'vnfProvider': 'ETSI NFV SOL WG', 'vnfSoftwareVersion': '2.2', 'vnfdId': 'f287e7d1-8db4-4d6b-b7d0-3f52ac887f15', 'vnfdVersion': '1.0'}
+instance state : INSTANTIATED
+
+
+
+
+
+
+
+curl -X 'POST' \
+  'http://tools.etsi.org/vnf-lcm-emulator/emulator-200/vnflcm/v2/vnf_instances/23109d4e-6380-4601-a0ca-ac6b3020f64c/change_ext_conn' \
+  -H 'accept: */*' \
+  -H 'Version: 2.0.0' \
+  -H 'VNF-LCM-KEY: b31bc51b-9352-4cd3-9c6d-40553c5e666c' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "vnfInstanceId": "23109d4e-6380-4601-a0ca-ac6b3020f64c",
+    "extVirtualLinks": [
+        {
+            "id": "763eafd4-517b-4c89-b72a-2be9dcfea5c4",
+            "resourceId": "a6aacf77-8025-4ccd-bacf-36a89c6d58a3",
+            "extCp": [
+                {
+                    "cpdId": "ext-a-left",
+                    "cpProtocolData": [
+                        {
+                            "layerProtocol": "IPV4",
+                            "ipAddresses": [
+                                {
+                                    "type": "IPV4",
+                                    "fixedAddresses": ["192.168.1.100"]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+'
