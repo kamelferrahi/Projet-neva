@@ -1,8 +1,10 @@
 from rich.console import Console
 from rich.prompt import Prompt
 import requests
-#from scenario1. import scenario2 as scenario2_execute
+from scenario3.terminatevnf import scenario1 as scenario1_execute
 from scenario2.healvnf import scenario2 as scenario2_execute
+from scenario3.terminatevnf import scenario3 as scenario3_execute
+from scenario4.change_external_connectivity import scenario4 as scenario4_execute
 #from scenario2.terminatevnf import scenario2 as scenario2_execute
 #from scenario2.change_external_connectivity import scenario2 as scenario2_execute
 
@@ -32,7 +34,7 @@ def get_apikey():
 # Définition des opérations avec arguments
 def scenario1(key, id_vnf):
     print("\n[Scenario 1] Execution in progress...")
-    # scenario1_execute(key, id_vnf)  
+    scenario1_execute(key, id_vnf)  
     print("[Scenario 1] Successfully completed!")
 
 def scenario2(key, id_vnf):
@@ -42,12 +44,12 @@ def scenario2(key, id_vnf):
 
 def scenario3(key, id_vnf):
     print("\n[Scenario 3] Execution in progress...")
-    # scenario3_execute(key, id_vnf)  
+    scenario3_execute(key, id_vnf)  
     print("[Scenario 3] Successfully completed!")
 
 def scenario4(key, id_vnf):
     print("\n[Scenario 4] Execution in progress...")
-    # scenario4_execute(key, id_vnf)  
+    scenario4_execute(key, id_vnf)  
     print("[Scenario 4] Successfully completed!")
 
 # Main function

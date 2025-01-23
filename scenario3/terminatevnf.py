@@ -96,6 +96,20 @@ def instantiate_vnf(vnf_instance_id):
     else:
         print(f"Failed to instantiate VNF: {response.status_code} {response.text}")
 
+def change_flavour(vnf_instance_id):
+    url = f"{BASE_URL}/vnflcm/v2/vnf_instances/{vnf_instance_id}/change_flavour"
+    payload = {
+        "newFlavourId": "df-big",  
+    }
+    response = requests.post(url, headers=HEADERS, json= payload)
+    if response.status_code == 202:
+        print(f"Changing flavour for VNF instance {vnf_instance_id}.")
+        location_header = response.headers['Location']
+        parsed_url = urlparse(location_header)
+        operation_id = parsed_url.path.split('/')[-1]
+        return operation_id
+    else:
+        print(f"Failed to change flavour VNF: {response.status_code} {response.text}")
 
 def fetch_operation(operation_id):
     url = f"{BASE_URL}/vnflcm/v2/vnf_lcm_op_occs/{operation_id}"
@@ -153,8 +167,7 @@ def scale_vnf(vnf_instance_id, aspect_id, number_of_steps, scale_type):
 # Main Workflow
 def main():
 
-    #key = get_apikey()
-    key = '8435273d-e171-4924-b551-040ba212090d'
+    key = get_apikey()
     print("API KEY: ",key)
     HEADERS['VNF-LCM-KEY'] = key
     aspect_id = "big"
@@ -214,6 +227,17 @@ def main():
     #     print(f"Scaling operation for VNF instance {vnf_instance_id} failed.")
 
     # Initiate scaling operation
+
+    operation_id = change_flavour(new_vnf_instance_id)
+
+    if not operation_id:
+        return
+
+    if check_operation_status(operation_id) != "COMPLETED":
+        return
+    
+    print("VNF flavour changed for scaling with success")
+
     operation_id = scale_vnf(new_vnf_instance_id, aspect_id, number_of_steps, scale_type)
     if not operation_id:
         return
@@ -225,8 +249,69 @@ def main():
         print(f"Scaling operation for VNF instance {vnf_instance_id} failed.")
 
 
-if __name__ == "__main__":
-    main()
+def scenario1(api_key, id_vnf):
+
+    HEADERS['VNF-LCM-KEY'] = api_key
+    vnf_instance_id = create_vnf_instance(id_vnf, 'First_VNFD')
+    operation_id = instantiate_vnf(vnf_instance_id)
+    if check_operation_status(operation_id) != "COMPLETED":
+        return
     
+    print("Instantion of the VNF done")
+
+    operation_id = scale_vnf(vnf_instance_id, aspect_id, number_of_steps, scale_type)
+    if not operation_id:
+        return
+
+    # Monitor the operation status
+    if check_operation_status(operation_id) == "COMPLETED":
+        print(f"VNF instance {vnf_instance_id} successfully scaled with aspect {aspect_id}.")
+    else:
+        print(f"Scaling operation for VNF instance {vnf_instance_id} failed.")
+
+
+def scenario3(api_key, id_vnf):
+
+    HEADERS['VNF-LCM-KEY'] = api_key
+    vnf_instance_id = create_vnf_instance(id_vnf, 'First_VNFD')
+    operation_id = instantiate_vnf(vnf_instance_id)
+    if check_operation_status(operation_id) != "COMPLETED":
+        return
+    
+    print("First Instantion of the VNF done")
+    print("Initiating the termination of the VNF")
+    # Terminate the VNF
+    operation_id = terminate_vnf(vnf_instance_id)
+    if not operation_id:
+        return
+    
+    # Check termination status
+    if check_operation_status(operation_id) != "COMPLETED":
+        return
+    
+    print("VNF Terminated")
+    # Fetch VNFD
+    vnfd_id = fetch_vnfd(vnf_instance_id)
+    if not vnfd_id:
+        return
+    
+    # Create a new VNF instance
+    new_vnf_instance_id = create_vnf_instance(id_vnf, "Second_VNFD")
+    if not new_vnf_instance_id:
+        return
+    
+    # Instantiate the new VNF
+    print("Initiating the reinstantion of the VNF")
+    operation_id = instantiate_vnf(new_vnf_instance_id)
+
+    if not operation_id:
+        return
+
+    if check_operation_status(operation_id) != "COMPLETED":
+        return
+    
+    print("VNF reinstantion with success")
+
+
     
 

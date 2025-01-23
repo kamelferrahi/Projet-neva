@@ -176,8 +176,25 @@ def main():
 
     check_instance_state(vnf_instance_id)
 
-if __name__ == "__main__":
-    main()
+
+def scenario4(api_key, id_vnf):
+
+    HEADERS['VNF-LCM-KEY'] = api_key
+
+    vnf_instance_id = create_vnf_instance(vnfd_id, "Riad's VNF")
+    operation_id = instantiate_vnf(vnf_instance_id)
+    if check_operation_status(operation_id) != "COMPLETED":
+        print("something wrong when checking operation state")
+        return
+    if check_instance_state(vnf_instance_id) != "INSTANTIATED": 
+        print("something wrong when checking instance state")
+        return
+    print("Instantion of the VNF done")
     
+    change_ext_conn_operation_id = change_ext_conn(vnf_instance_id)
+    check_operation_status(change_ext_conn_operation_id)
+
+    check_instance_state(vnf_instance_id)
+
     
 
