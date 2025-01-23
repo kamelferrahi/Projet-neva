@@ -1,9 +1,9 @@
 from rich.console import Console
 from rich.prompt import Prompt
 import requests
-#from scenario1. import scenario2 as scenario2_execute
-from scenario2.healvnf import scenario2 as scenario2_execute
-#from scenario2.terminatevnf import scenario2 as scenario2_execute
+from scale import main as scenario1_execute
+from heal import main as scenario2_execute
+from terminate import main as scenario3_execute
 #from scenario2.change_external_connectivity import scenario2 as scenario2_execute
 
 
@@ -32,7 +32,7 @@ def get_apikey():
 # Définition des opérations avec arguments
 def scenario1(key, id_vnf):
     print("\n[Scenario 1] Execution in progress...")
-    # scenario1_execute(key, id_vnf)  
+    scenario1_execute(key, id_vnf)  
     print("[Scenario 1] Successfully completed!")
 
 def scenario2(key, id_vnf):
@@ -42,13 +42,8 @@ def scenario2(key, id_vnf):
 
 def scenario3(key, id_vnf):
     print("\n[Scenario 3] Execution in progress...")
-    # scenario3_execute(key, id_vnf)  
+    scenario3_execute(key, id_vnf)  
     print("[Scenario 3] Successfully completed!")
-
-def scenario4(key, id_vnf):
-    print("\n[Scenario 4] Execution in progress...")
-    # scenario4_execute(key, id_vnf)  
-    print("[Scenario 4] Successfully completed!")
 
 # Main function
 def main():
@@ -71,11 +66,10 @@ def main():
         console.print("[bold blue]1.[/bold blue] Execute Scenario 1")
         console.print("[bold blue]2.[/bold blue] Execute Scenario 2")
         console.print("[bold blue]3.[/bold blue] Execute Scenario 3")
-        console.print("[bold blue]4.[/bold blue] Execute Scenario 4")
         console.print("[bold blue]q.[/bold blue] Quit the application")
 
         # User choice
-        choice = Prompt.ask("Please select an option", choices=["1", "2", "3", "4", "q"])
+        choice = Prompt.ask("Please select an option", choices=["1", "2", "3", "q"])
 
         if choice == "q":
             console.print("\n[bold]Closing the application. Goodbye![/bold]", justify="center")
@@ -90,7 +84,6 @@ scenarios = {
     "1": scenario1,
     "2": scenario2,
     "3": scenario3,
-    "4": scenario4
 }
 
 if __name__ == "__main__":
