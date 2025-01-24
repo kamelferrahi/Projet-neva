@@ -1,7 +1,7 @@
 import requests
 import time
 from urllib.parse import urlparse
-
+import json
 
 id_vnf = 'f287e7d1-8db4-4d6b-b7d0-3f52ac887f15'
 # Replace with actual API base URL and headers
@@ -51,6 +51,22 @@ def check_operation_status(operation_id):
             print(f"Failed to check status: {response.status_code} {response.text}")
             return None
         last_status = operation_status
+
+def check_instance_state(vnf_instance_id):
+    url = f"{BASE_URL}/vnflcm/v2/vnf_instances/{vnf_instance_id}"
+    response = requests.get(url, headers=HEADERS)
+
+    if response.status_code == 200:
+        print("instance info : ")
+        res = response.json()
+        print(format_vnf_info(res))
+        state = res.get("instantiationState")
+        #print(res)
+        print(f"instance state : {state}")
+        return state
+    else:
+        print(f"Failed to fetch the VNF instance: {response.status_code} {response.text}")
+        return None
       
 
 def fetch_vnfd(vnf_instance_id):
@@ -163,6 +179,30 @@ def scale_vnf(vnf_instance_id, aspect_id, number_of_steps, scale_type):
         print(f"Failed to scale VNF: {response.status_code} {response.text}")
         return None
 
+def format_vnf_info(data):
+    formatted_data = {
+        "VNF Instance": {
+            "ID": data.get("id"),
+            "Name": data.get("vnfInstanceName"),
+            "Description": data.get("vnfInstanceDescription"),
+            "State": data.get("instantiationState"),
+            "VNF State": data.get("instantiatedVnfInfo", {}).get("vnfState"),
+            "Provider": data.get("vnfProvider"),
+            "Software Version": data.get("vnfSoftwareVersion"),
+            "VNFD ID": data.get("vnfdId"),
+            "VNFD Version": data.get("vnfdVersion"),
+            "Configurable Properties": data.get("vnfConfigurableProperties"),
+        },
+        "Instantiated Info": {
+            "Flavor ID": data.get("instantiatedVnfInfo", {}).get("flavourId"),
+            "Scale Status": data.get("instantiatedVnfInfo", {}).get("scaleStatus"),
+            "Max Scale Levels": data.get("instantiatedVnfInfo", {}).get("maxScaleLevels"),
+            
+        },
+    }
+    return json.dumps(formatted_data, indent=4)
+
+
 
 # Main Workflow
 def main():
@@ -172,7 +212,7 @@ def main():
     HEADERS['VNF-LCM-KEY'] = key
     aspect_id = "big"
     scale_level = 1
-    number_of_steps = 1
+    number_of_steps = 2
     scale_type = "SCALE_OUT"
 
     vnf_instance_id = create_vnf_instance(id_vnf, 'First_VNFD')
@@ -254,11 +294,15 @@ def scenario1(api_key, id_vnf):
     HEADERS['VNF-LCM-KEY'] = api_key
     vnf_instance_id = create_vnf_instance(id_vnf, 'First_VNFD')
     operation_id = instantiate_vnf(vnf_instance_id)
+    aspect_id = "big"
+    number_of_steps = 2
+    scale_type = "SCALE_OUT"
     if check_operation_status(operation_id) != "COMPLETED":
         return
     
     print("Instantion of the VNF done")
 
+    check_instance_state(vnf_instance_id)
     operation_id = scale_vnf(vnf_instance_id, aspect_id, number_of_steps, scale_type)
     if not operation_id:
         return
@@ -268,6 +312,7 @@ def scenario1(api_key, id_vnf):
         print(f"VNF instance {vnf_instance_id} successfully scaled with aspect {aspect_id}.")
     else:
         print(f"Scaling operation for VNF instance {vnf_instance_id} failed.")
+    check_instance_state(vnf_instance_id)
 
 
 def scenario3(api_key, id_vnf):
