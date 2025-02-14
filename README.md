@@ -13,7 +13,7 @@ The Neva Project is a Python-based application designed to interact with a VNF (
 - **User-Friendly CLI**: Interactive menu for selecting and executing scenarios.
 
 
-## NB: 
+## NB
 - **Emulator Availability:** The emulator sometimes goes down, making it temporarily inaccessible. If you encounter issues, please try again later.
 - **Scenario 4:** Scenario 4 is currently not working due to issues with the emulator.
 
